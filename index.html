@@ -1,0 +1,207 @@
+<!doctype html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+    />
+    <title>Ayrez Photography | Cần Thơ</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Roboto:wght@300;400;500;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="style.css" />
+    <style>
+      /* ÉP MÀU TRỰC TIẾP TRONG INDEX.HTML */
+      #pricing .price-card a,
+      #pricing .price-card a:link,
+      #pricing .price-card a:visited {
+        color: #c5a059 !important;
+        text-decoration: none !important;
+        border: 1px solid #c5a059 !important;
+        padding: 8px 22px !important;
+        display: inline-block !important;
+        border-radius: 4px !important;
+        margin-top: 15px !important;
+        font-weight: 600 !important;
+        background-color: transparent !important;
+      }
+
+      #pricing .price-card a:hover {
+        background-color: #c5a059 !important;
+        color: #1a201c !important;
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <nav>
+        <a href="#" class="logo">DFRAME Photography</a>
+        <div class="menu-toggle" id="mobile-menu">
+          <span></span>
+          <span></span>
+          <span></span>
+        </div>
+        <div class="menu" id="nav-links">
+          <a href="#home" class="nav-item">Trang chủ</a>
+          <a href="#pricing" class="nav-item">Bảng giá</a>
+          <a href="#portfolio" class="nav-item">Ảnh đã chụp</a>
+          <a href="#contact" class="nav-item">Liên hệ</a>
+        </div>
+      </nav>
+    </header>
+
+    <section id="home" class="hero">
+      <!-- Khối chứa slider nền tự động trượt -->
+      <div class="hero-bg-slider">
+        <div class="hero-bg-track">
+          <!-- Thêm nhiều ảnh để hiệu ứng trượt ngang được mượt (cần lặp lại ảnh để vòng lặp không bị đứt) -->
+          <img src="image/background.jpeg" alt="Bg 1" />
+        </div>
+      </div>
+      <div class="hero-overlay"></div>
+      <div class="hero-content">
+        <h1>Photography Price</h1>
+        <p>📍 Cần Thơ</p>
+      </div>
+    </section>
+
+    <section id="pricing">
+      <h2 class="section-title">Bảng Giá Dịch Vụ</h2>
+      <div class="pricing-container">
+        <div class="price-card">
+          <h3>Gói chụp đơn</h3>
+          <div class="price">500k</div>
+          <p>Dành cho 1 người</p>
+          <a
+            href="https://zalo.me/0937163974"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="btn-book"
+            >Đặt Lịch Ngay</a
+          >
+        </div>
+
+        <div class="price-card">
+          <h3>Gói chụp couple</h3>
+          <div class="price">800k</div>
+          <p>Dành cho cặp đôi</p>
+          <a
+            href="https://zalo.me/0937163974"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="btn-book"
+            >Đặt Lịch Ngay</a
+          >
+        </div>
+
+        <div class="price-card">
+          <h3>Gói chụp nhóm</h3>
+          <div class="price">
+            300k<span style="font-size: 14px">/Người</span>
+          </div>
+          <p>Dành cho nhóm bạn</p>
+          <a
+            href="https://zalo.me/0937163974"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="btn-book"
+            >Đặt Lịch Ngay</a
+          >
+        </div>
+      </div>
+      <p class="price-note">
+        ✨ Trả toàn bộ file gốc, hỗ trợ chỉnh sửa 8 ảnh ✨
+      </p>
+      <div class="rules">
+        <h4>LƯU Ý - Bảng giá trên chưa bao gồm:</h4>
+        <ul>
+          <li>Makeup, làm tóc và trang phục</li>
+          <li>Vé vào các địa điểm chụp ảnh</li>
+          <li>Chi phí tiền nước tại quán Cafe</li>
+          <li>Khách hàng vui lòng đặt cọc trước 50% gói chụp</li>
+        </ul>
+      </div>
+    </section>
+
+    <section id="portfolio">
+      <h2 class="section-title">Các Bộ Ảnh Đã Chụp</h2>
+      <p style="text-align: center; margin-bottom: 20px; color: #a9a9a9">
+        Click vào từng bộ để xem đầy đủ hình ảnh
+      </p>
+      <div class="portfolio-grid">
+        <!-- Thêm data-album để JS nhận diện bộ ảnh nào được click -->
+        <div class="portfolio-item" data-album="nang-tho-01">
+          <img src="image/album_01/01.jpg" alt="Chân dung nữ" />
+          <div class="portfolio-overlay">
+            <h3>Nàng thơ</h3>
+            <p>Gói chụp đơn</p>
+          </div>
+        </div>
+
+        <div class="portfolio-item" data-album="nang-tho-02">
+          <img src="image/album_02/01.jpg" alt="Chân dung nữ" />
+          <div class="portfolio-overlay">
+            <h3>Nàng thơ</h3>
+            <p>Gói chụp đơn</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Modal Box: Khung hiển thị slide ảnh khi click vào album -->
+    <div id="image-modal" class="modal">
+      <span class="close-modal">&times;</span>
+      <div class="modal-slider">
+        <div class="modal-track" id="modal-track">
+          <!-- Ảnh sẽ được thêm vào đây bằng JavaScript -->
+        </div>
+        <button class="modal-btn prev" id="modal-prev">&#10094;</button>
+        <button class="modal-btn next" id="modal-next">&#10095;</button>
+      </div>
+    </div>
+
+    <footer id="contact">
+      <div class="footer-content">
+        <h3>Liên hệ ngay</h3>
+        <p style="margin-bottom: 20px; font-size: 20px">
+          Inbox cho mình để biết thêm thông tin chi tiết và đặt lịch nhé!
+        </p>
+
+        <div class="footer-info">
+          <span>Facebook:</span>
+          <a
+            href="https://www.facebook.com/ayrezhere/"
+            target="_blank"
+            class="social-link"
+            >Nguyễn Phạm Thành Đạt
+          </a>
+        </div>
+        <div class="footer-info">
+          <span>TikTok:</span>
+          <a
+            href="https://www.tiktok.com/@dframe.photo?is_from_webapp=1&sender_device=pc"
+            target="_blank"
+            class="social-link"
+            >@dframe.photo</a
+          >
+        </div>
+        <div class="footer-info">
+          <span>SĐT/ZALO:</span>
+          <a
+            href="https://zalo.me/0937163974"
+            target="_blank"
+            class="social-link"
+            >0937 163 974</a
+          >
+        </div>
+        <div class="footer-info" style="margin-top: 15px">
+          <span>📍 Khu vực:</span> Cần Thơ
+        </div>
+      </div>
+    </footer>
+
+    <script src="script.js"></script>
+  </body>
+</html>
