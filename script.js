@@ -4,20 +4,21 @@ document.addEventListener("DOMContentLoaded", () => {
   const navLinks = document.querySelector("#nav-links");
   const navItems = document.querySelectorAll(".nav-item");
 
-  menuToggle.addEventListener("click", () => {
-    menuToggle.classList.toggle("active");
-    navLinks.classList.toggle("active");
-  });
+  if (menuToggle) {
+    menuToggle.addEventListener("click", () => {
+      menuToggle.classList.toggle("active");
+      navLinks.classList.toggle("active");
+    });
+  }
 
   navItems.forEach((item) => {
     item.addEventListener("click", () => {
-      menuToggle.classList.remove("active");
-      navLinks.classList.remove("active");
+      if (menuToggle) menuToggle.classList.remove("active");
+      if (navLinks) navLinks.classList.remove("active");
     });
   });
 
   // --- 2. Xử lý Dữ liệu các bộ ảnh Modal (Ảnh con bên trong) ---
-  // Bạn hãy thay link ảnh bằng những bức ảnh thực tế của bạn nhé
   const albumData = {
     "nang-tho-01": [
       "image/album_01/01.jpg",
@@ -62,6 +63,12 @@ document.addEventListener("DOMContentLoaded", () => {
         images.forEach((imgUrl) => {
           const img = document.createElement("img");
           img.src = imgUrl;
+
+          // Tắt hành vi click mặc định trên ảnh bên trong modal
+          img.addEventListener("click", (e) => {
+            e.preventDefault();
+          });
+
           modalTrack.appendChild(img);
         });
 
@@ -69,7 +76,7 @@ document.addEventListener("DOMContentLoaded", () => {
         currentIndex = 0;
         updateSliderPosition();
 
-        modal.style.display = "block";
+        if (modal) modal.style.display = "block";
         startAutoPlay();
       }
     });
@@ -77,7 +84,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // Hàm cập nhật vị trí thẻ trượt
   function updateSliderPosition() {
-    modalTrack.style.transform = `translateX(-${currentIndex * 100}%)`;
+    if (modalTrack) {
+      modalTrack.style.transform = `translateX(-${currentIndex * 100}%)`;
+    }
   }
 
   // Hàm chuyển sang slide kế tiếp
@@ -100,34 +109,48 @@ document.addEventListener("DOMContentLoaded", () => {
     updateSliderPosition();
   }
 
-  // Logic Tự động cuộn (Auto roll)
+  // Logic Tự động trượt (Auto roll)
   function startAutoPlay() {
     clearInterval(autoPlayInterval);
     autoPlayInterval = setInterval(nextSlide, 5000); // 5 giây trượt 1 lần
   }
 
-  // Reset tự động trượt khi người dùng tự bấm nút
+  // Reset tự động trượt khi người dùng tương tác
   function resetAutoPlay() {
     clearInterval(autoPlayInterval);
     startAutoPlay();
   }
 
-  // --- Bắt sự kiện bấm nút ---
-  btnNext.addEventListener("click", () => {
-    nextSlide();
-    resetAutoPlay();
-  });
+  // --- Bắt sự kiện bấm nút (Chỉ kích hoạt nếu không phải điện thoại hoặc chặn click trên di động) ---
+  if (btnNext) {
+    btnNext.addEventListener("click", (e) => {
+      if (window.innerWidth <= 768) {
+        e.preventDefault();
+        return;
+      }
+      nextSlide();
+      resetAutoPlay();
+    });
+  }
 
-  btnPrev.addEventListener("click", () => {
-    prevSlide();
-    resetAutoPlay();
-  });
+  if (btnPrev) {
+    btnPrev.addEventListener("click", (e) => {
+      if (window.innerWidth <= 768) {
+        e.preventDefault();
+        return;
+      }
+      prevSlide();
+      resetAutoPlay();
+    });
+  }
 
   // Đóng Modal
-  closeModal.addEventListener("click", () => {
-    modal.style.display = "none";
-    clearInterval(autoPlayInterval);
-  });
+  if (closeModal) {
+    closeModal.addEventListener("click", () => {
+      if (modal) modal.style.display = "none";
+      clearInterval(autoPlayInterval);
+    });
+  }
 
   // Đóng Modal khi nhấp ra ngoài viền đen
   window.addEventListener("click", (event) => {
@@ -137,38 +160,82 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
-  // --- Tính năng Tự động trượt ngang cho Portfolio (Không nhân đôi album) ---
+  // --- 4. TÍCH HỢP VUỐT CẢM ỨNG (TOUCH SWIPE) TRÊN ĐIỆN THOẠI CHO MODAL ---
+  let touchStartX = 0;
+  let touchEndX = 0;
+
+  if (modal) {
+    modal.addEventListener(
+      "touchstart",
+      (e) => {
+        touchStartX = e.changedTouches[0].screenX;
+        clearInterval(autoPlayInterval); // Tạm dừng tự động chạy khi người dùng bắt đầu chạm vuốt
+      },
+      { passive: true },
+    );
+
+    modal.addEventListener(
+      "touchend",
+      (e) => {
+        touchEndX = e.changedTouches[0].screenX;
+        handleModalSwipe();
+        startAutoPlay(); // Chạy lại auto play sau khi vuốt xong
+      },
+      { passive: true },
+    );
+  }
+
+  function handleModalSwipe() {
+    const swipeThreshold = 50; // Khoảng cách tối thiểu để nhận diện là vuốt (px)
+
+    // Vuốt sang trái -> Xem ảnh tiếp theo
+    if (touchStartX - touchEndX > swipeThreshold) {
+      nextSlide();
+    }
+
+    // Vuốt sang phải -> Quay lại ảnh trước
+    if (touchEndX - touchStartX > swipeThreshold) {
+      prevSlide();
+    }
+  }
+
+  // --- 5. Tính năng Tự động trượt ngang cho Portfolio ---
   const portfolioGrid = document.querySelector(".portfolio-grid");
-  let autoScrollInterval;
-  const scrollSpeed = 1; // Tốc độ trượt
-  let direction = 1; // 1: trượt sang phải, -1: trượt ngược lại sang trái
 
-  function startAutoScroll() {
-    clearInterval(autoScrollInterval);
+  if (portfolioGrid) {
+    let autoScrollInterval;
+    const scrollSpeed = 1;
+    let direction = 1;
 
-    autoScrollInterval = setInterval(() => {
-      portfolioGrid.scrollLeft += scrollSpeed * direction;
+    function startAutoScroll() {
+      clearInterval(autoScrollInterval);
 
-      const maxScroll = portfolioGrid.scrollWidth - portfolioGrid.clientWidth;
+      autoScrollInterval = setInterval(() => {
+        portfolioGrid.scrollLeft += scrollSpeed * direction;
 
-      // Khi trượt hết sang phải, tự động đảo chiều trượt mượt mà về lại bên trái
-      if (portfolioGrid.scrollLeft >= maxScroll - 1) {
-        direction = -1;
-      } else if (portfolioGrid.scrollLeft <= 0) {
-        direction = 1;
-      }
-    }, 20);
+        const maxScroll = portfolioGrid.scrollWidth - portfolioGrid.clientWidth;
+
+        if (portfolioGrid.scrollLeft >= maxScroll - 1) {
+          direction = -1;
+        } else if (portfolioGrid.scrollLeft <= 0) {
+          direction = 1;
+        }
+      }, 20);
+    }
+
+    function stopAutoScroll() {
+      clearInterval(autoScrollInterval);
+    }
+
+    startAutoScroll();
+
+    portfolioGrid.addEventListener("mouseenter", stopAutoScroll);
+    portfolioGrid.addEventListener("mouseleave", startAutoScroll);
+    portfolioGrid.addEventListener("touchstart", stopAutoScroll, {
+      passive: true,
+    });
+    portfolioGrid.addEventListener("touchend", startAutoScroll, {
+      passive: true,
+    });
   }
-
-  function stopAutoScroll() {
-    clearInterval(autoScrollInterval);
-  }
-
-  startAutoScroll();
-
-  // Tạm dừng khi người dùng tương tác
-  portfolioGrid.addEventListener("mouseenter", stopAutoScroll);
-  portfolioGrid.addEventListener("mouseleave", startAutoScroll);
-  portfolioGrid.addEventListener("touchstart", stopAutoScroll);
-  portfolioGrid.addEventListener("touchend", startAutoScroll);
 });

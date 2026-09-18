@@ -656,4 +656,11 @@ footer {
     font-size: 14px;
     margin-bottom: 20px;
   }
+  /* Ẩn nút mũi tên điều hướng trên màn hình điện thoại nhỏ hơn 768px */
+  @media (max-width: 768px) {
+    #modal-prev,
+    #modal-next {
+      display: none !important;
+    }
+  }
 }
