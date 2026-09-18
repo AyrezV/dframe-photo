@@ -29,13 +29,13 @@ document.addEventListener("DOMContentLoaded", () => {
       "image/album_01/06.jpg",
     ],
     "nang-tho-02": [
-      "image/album_01/01.jpg",
-      "image/album_01/02.jpg",
-      "image/album_01/03.jpg",
-      "image/album_01/04.jpg",
-      "image/album_01/05.jpg",
-      "image/album_01/06.jpg",
-      "image/album_01/07.jpg",
+      "image/album_02/01.jpg",
+      "image/album_02/02.jpg",
+      "image/album_02/03.jpg",
+      "image/album_02/04.jpg",
+      "image/album_02/05.jpg",
+      "image/album_02/06.jpg",
+      "image/album_02/07.jpg",
     ],
   };
 
