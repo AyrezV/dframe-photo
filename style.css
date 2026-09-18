@@ -663,4 +663,9 @@ footer {
       display: none !important;
     }
   }
+  /* Khóa cuộn trang khi body có class modal-open */
+  body.modal-open {
+    overflow: hidden;
+    height: 100vh;
+  }
 }

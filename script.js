@@ -76,7 +76,11 @@ document.addEventListener("DOMContentLoaded", () => {
         currentIndex = 0;
         updateSliderPosition();
 
-        if (modal) modal.style.display = "block";
+        if (modal) {
+          modal.style.display = "block";
+          // 🛑 KHÓA CUỘN DỌC TRANG KHI MỞ MODAL (Giúp vuốt ngang trên điện thoại mượt mà)
+          document.body.classList.add("modal-open");
+        }
         startAutoPlay();
       }
     });
@@ -112,7 +116,7 @@ document.addEventListener("DOMContentLoaded", () => {
   // Logic Tự động trượt (Auto roll)
   function startAutoPlay() {
     clearInterval(autoPlayInterval);
-    autoPlayInterval = setInterval(nextSlide, 2000); // 5 giây trượt 1 lần
+    autoPlayInterval = setInterval(nextSlide, 2000); // 2 giây trượt 1 lần
   }
 
   // Reset tự động trượt khi người dùng tương tác
@@ -144,19 +148,25 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  // Đóng Modal
+  // Hàm đóng Modal dùng chung để tối ưu code
+  function closeModalFunc() {
+    if (modal) {
+      modal.style.display = "none";
+      // 🟢 MỞ LẠI CUỘN DỌC TRANG KHI ĐÓNG MODAL
+      document.body.classList.remove("modal-open");
+    }
+    clearInterval(autoPlayInterval);
+  }
+
+  // Đóng Modal khi bấm nút X
   if (closeModal) {
-    closeModal.addEventListener("click", () => {
-      if (modal) modal.style.display = "none";
-      clearInterval(autoPlayInterval);
-    });
+    closeModal.addEventListener("click", closeModalFunc);
   }
 
   // Đóng Modal khi nhấp ra ngoài viền đen
   window.addEventListener("click", (event) => {
     if (event.target == modal) {
-      modal.style.display = "none";
-      clearInterval(autoPlayInterval);
+      closeModalFunc();
     }
   });
 
