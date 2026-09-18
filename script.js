@@ -112,7 +112,7 @@ document.addEventListener("DOMContentLoaded", () => {
   // Logic Tự động trượt (Auto roll)
   function startAutoPlay() {
     clearInterval(autoPlayInterval);
-    autoPlayInterval = setInterval(nextSlide, 5000); // 5 giây trượt 1 lần
+    autoPlayInterval = setInterval(nextSlide, 2000); // 5 giây trượt 1 lần
   }
 
   // Reset tự động trượt khi người dùng tương tác
